@@ -1,0 +1,46 @@
+http://www.linuxidc.com/Linux/2014-04/100645.htm
+
+Ubuntu 14.04 LTS下安装Google Chrome浏览器
+[日期：2014-04-23] 	来源：Linux公社  作者：Linux 	[字体：大 中 小]
+
+在Ubuntu 14.04下安装Google Chrome浏览器非常简单，只要到Chrome的网站下载Deb安装包并进行安装即可。当然你也可以使用APT软件包管理器来安装Google Chrome浏览器，如果你想使用APT软件包管理器安装Google Chrome浏览器的话，本文将介绍这两种方法。
+
+目前Linux下的Google Chrome浏览器有三个版本，稳定版、Beta（测试版）和Unstable（不稳定版，也就是Dev版）。其中Beta相对较稳定，而最新的功能将会先出现在Unstable版中，经过一段测试后才会在Beta版中出现，缺点是Unstable版本更新较为频繁，稳定性也不如Beta版。
+
+如果你追求稳定的话，最好选择稳定版版，如果你喜欢尝试新功能并追求最好的性能，推荐安装Unstable版，而且似乎在Ubuntu下，Unstable版的Chrome中的字体显示也要比Beta好看一些。
+
+推荐阅读：
+
+Ubuntu 14.04 下载、安装、配置的相关知识 http://www.linuxidc.com/Linux/2014-04/100370.htm
+
+Ubuntu 14.04系统下载地址：http://www.linuxidc.com/Linux/2014-04/100352.htm
+
+Windows 7下硬盘安装Ubuntu 14.04图文教程 http://www.linuxidc.com/Linux/2014-04/100369.htm
+
+使用您的 Google 帐户登录 Google Chrome，即可将您的个性化浏览器功能保存至网络，还可从任意一台计算机上通过 Google Chrome访问它们。系统还会自动将您登录至您喜爱的 Google 服务。
+
+Ubuntu 14.04 LTS下安装Google Chrome浏览器
+
+一、通过直接下载安装Google Chrome浏览器deb包。
+
+打开Ubuntu终端，以下为32位版本，使用下面的命令。
+
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_i386.deb
+
+Ubuntu 14.04 LTS下安装Google Chrome浏览器
+
+以下为64位版本，使用下面的命令。
+
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+
+下载好后
+
+32 位安装命令:
+
+sudo dpkg -i google-chrome-stable_current_i386.deb
+
+Ubuntu 14.04 LTS下安装Google Chrome浏览器
+
+64 位安装命令:
+
+sudo dpkg -i google-chrome-stable_current_amd64.deb
