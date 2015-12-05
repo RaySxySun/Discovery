@@ -1,0 +1,13 @@
+问题1： db2 express c 10.5 for linux 64 缺少libpam.so
+Validating "/lib/libpam.so*" ... 
+   DBT3514W  The db2prereqcheck utility failed to find the following 32-bit library file: "/lib/libpam.so*". 
+   WARNING : Requirement not matched. 
+Requirement not matched for DB2 database "Server" . Version: "10.1.0.0". 
+Summary of prerequisites that are not met on the current system: 
+   DBT3514W  The db2prereqcheck utility failed to find the following 32-bit library file: "/lib/libpam.so*". 
+
+解决1: 
+sudo apt-get install libpam0g:i386
+sudo ln -s /lib/i386-linux-gnu/libpam.so.0 /lib/libpam.so
+
+知识点1: 获取32bit安装包 添加:i386
