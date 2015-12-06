@@ -1,0 +1,95 @@
+ 一.安装apache
+     1.打开终端：Ctrl+Alt+T,更新最新源：
+     2.通过apt-get方式安装Apache:
+     注：
+二.安装php5
+     3.安装php5和apachephp5模块
+     4.建一个探针页面测试PHP是否安装成功
+三.安装mysql
+         5.终端输入：
+     6.测试mysql是否安装成功
+     7.为PHP安装mysql扩展和其它扩展。
+四.安装phpmyadmin
+     8.下载phpmyadmin
+    今天系统从原版换成麒麟版，再加上昨儿失心疯把以前的blog,为知笔记全给删除了，反正要装环境，干脆从头再来。
+
+ 一.安装apache
+
+     1.打开终端：Ctrl+Alt+T,更新最新源：
+
+sudo apt-get update//apt-get 是自带的shell命令，通过它可以方便的安装源里的软件。
+     2.通过apt-get方式安装Apache:
+
+sudo apt-get install apache2//中途要输入Y确认
+
+
+    检测安装是否成功: 在浏览器输入：127.0.0.1或locahost.浏览器上出现内容并有It works.说明安装成功！
+
+     注：
+
+            a.Apache在Ubuntu中默认根目录为：/var/www
+
+            b.主配置文件目录为：/etc/apache2/apache2.conf
+
+            c.虚拟机配置目录为：/etc/apache2/sites-enabled
+
+
+
+二.安装php5
+
+     3.安装php5和apachephp5模块
+
+sudo apt-get install php5 libapache2-mod-php5//其实libapache2-mod-php5可以不写，新版的源里已经自带了
+安装好后，重启apache:
+
+/etc/init.d/apache2 restart
+     4.建一个探针页面测试PHP是否安装成功
+
+在var/www/下新建一个php文件：
+
+sudo vim test.php<?phpphinfo();?>
+浏览器里输入：locahost/test.php出现以下画面表示成功。
+
+
+
+三.安装mysql
+
+         5.终端输入：
+
+sudo apt-get install mysql-server
+中途会出现以下提示：
+
+
+
+设置mysql密码。
+
+     6.测试mysql是否安装成功
+
+打开一个新的终端输入：
+
+mysql -uroot -p密码
+没提示错误正确进入表示安装成功。
+
+     7.为PHP安装mysql扩展和其它扩展。
+
+查看所有扩展：
+
+sudo apt-cache search php5
+找到自己要安装的模块名字，按如下格式输入命令
+
+sudo apt-get install php5-mysql php5-curl php5-gd
+重启apache.进localhost/test.php.可以查看模块是否已安装成功。
+
+四.安装phpmyadmin
+
+     8.下载phpmyadmin
+
+sudo apt-get install phpmyadmin
+注：phpmyadmin会自动安装在/usr/share/phpMyAdmin下，需要将 phpMyAdmin文件夹拷贝到/var/www/html目录下
+
+使用命令：
+
+sudo ln -s /usr/share/phpmyadmin/ /var/www/html/
+浏览器输入localhost/phpmyadmin就可以看到管理数据库的界面了。
+
+配置完成！
