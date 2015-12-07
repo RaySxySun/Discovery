@@ -1,0 +1,14 @@
+1.安装pecl
+2.下载http://pecl.php.net/package/ibm_db2
+http://www.php.net/ibm_db2
+http://php.net/manual/en/ibm-db2.installation.php
+3.在/etc/profile中设置IBM_DB_HOME
+4.DB2需要custome安装 可以用./db2setup添加新的feature
+
+./configure --with-IBM_DB2=/opt/ibm/db2/V10.5
+make
+make test
+make install
+
+
+target: /usr/lib/php5/20121212
