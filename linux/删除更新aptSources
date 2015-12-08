@@ -1,0 +1,18 @@
+-- 添加源
+sudo add-apt-repository ppa:noobslab/themes
+
+-- 删除源
+sudo add-apt-repository -r ppa:noobslab/themes
+
+--更新失败 清空list
+rm /var/lib/apt/list/*
+cd sources.list.d/
+rm *
+
+--更新数据源
+-- http://wiki.ubuntu.org.cn/%E6%BA%90%E5%88%97%E8%A1%A8#Trusty.2814.04.29.E7.89.88.E6.9C.AC
+-- 阿里云还行
+
+sudo gedit /etc/apt/sources.list
+
+

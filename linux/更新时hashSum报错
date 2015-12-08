@@ -1,0 +1,28 @@
+在运行sudo apt-get update的时候遇到以下错误：
+[plain] view plaincopy
+W: Failed to fetch bzip2:/var/lib/apt/lists/partial/mirrors.163.com_ubuntu_dists_quantal-updates_main_binary-i386_Packages  Hash Sum mismatch  
+  
+E: Some index files failed to download. They have been ignored, or old ones used instead.  
+
+这里有一堆关于这个Error的帖子： Ubuntu Forums
+关于这个问题的原因，答案挺多，不过总的来说就是提供源的服务器的问题。可能是因为网络问题导致tcp包没有发送完整，也有可能是因为服务器那边繁忙所以没有处理你的请求，也有可能是因为服务器那边进行了缓存导致软件列表不是最新的，等等。。。（如果哪里说错说漏了，欢迎批评指正补充~）
+
+网上的解决方法挺多的：
+（1）我是用这个方法解决的，from here
+[python] view plaincopy
+sudo apt-get clean
+sudo rm -rf /etc/apt/sources.list.d/*  --用命令行加载的源会记录在这里  
+sudo apt-get update --fix-missing  
+
+（2）删掉/var/lib/apt/lists 这个目录下的东西，fromhere
+[python] view plaincopy
+# 删除  
+sudo rm -fR /var/lib/apt/lists/*  
+# 新建相应文件夹  
+sudo mkdir /var/lib/apt/lists/partial  
+# 重新update  
+sudo apt-get update  
+
+（3）换源。
+好像是从ubuntu11.04开始，换源都可以在system settings里面直接操作了，不用命令行那么麻烦了。。。
+ps：在天朝的话，如果是校园网的，就找个edu.cn的源；如果不是校园网的话，我个人用着163的mirror觉得还不错。

@@ -1,0 +1,5 @@
+wget -O - http://packages.elasticsearch.org/GPG-KEY-elasticsearch | sudo apt-key add -
+有报错的话看是不是权限问题，chmod增加下权限
+sudo echo "deb http://packages.elasticsearch.org/elasticsearch/1.1/debian stable main" >> /etc/apt/sources.list
+$ sudo apt-get update
+$ sudo apt-get install elasticsearch
