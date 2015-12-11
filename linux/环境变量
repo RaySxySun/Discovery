@@ -1,0 +1,2 @@
+sudo gedit /etc/environment
+sudo gedit ~/.bashrc

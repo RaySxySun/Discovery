@@ -1,0 +1,99 @@
+https://www.rodneybeede.com/Building_Apache_2_4_for_Linux_with_mod_ssl.html
+
+These are my instructions for building Apache 2.4 on Linux and including mod_ssl. OpenSSL is assumed to be available already and is thus not compiled from source.
+Platform Versions used:
+
+Apache 2.4.12 - http://httpd.apache.org/download.cgi#apache24
+Apache APR 1.5 - http://apr.apache.org/download.cgi
+Ubuntu 12.04.5 LTS, Server Edition, 32-bit - http://www.ubuntu.com/download/server
+Ubuntu Hashes
+Assumed that you have done all the latest apt-get upgrade
+Prerequisites:
+
+Read over the Apache Compiling and Installing documentation
+It is assumed that OpenSSL 1.0.1 (or later) is already installed, but not necessarily the dev library package
+It is assumed that Perl 5.14 (or later) is already installed
+sudo apt-get install libssl-dev
+This avoids the "checking for OpenSSL version >= 0.9.7... FAILED" and "configure: WARNING: OpenSSL version is too old" errors on Ubuntu
+sudo apt-get install libpcre3-dev
+sudo apt-get install gcc make
+You will need the source for the APR and APR-Util. Steps for download and install provided later
+You are building using a non-privileged account (i.e. not root) and installing with sudo capability
+Build:
+
+Download version from http://httpd.apache.org/download.cgi
+Verify the integrity via the official hash from https://www.apache.org/dist/httpd/httpd-2.4.##.tar.bz2.sha1
+sha1sum --check httpd-2.4.##.tar.bz2.sha1
+tar -xf httpd-2.4.7.tar.bz2
+Don't cd into httpd-2.4.7/ yet
+wget http://mirrors.ibiblio.org/apache/apr/apr-1.5.1.tar.bz2
+wget https://www.apache.org/dist/apr/apr-1.5.1.tar.bz2.md5
+md5sum --check apr-1.5.1.tar.bz2.md5
+wget http://mirrors.ibiblio.org/apache/apr/apr-util-1.5.4.tar.bz2
+wget https://www.apache.org/dist/apr/apr-util-1.5.4.tar.bz2.md5
+md5sum --check apr-util-1.5.4.tar.bz2.md5
+tar -xf apr-1.5.1.tar.bz2 -C httpd-2.4.12/srclib/
+mv httpd-2.4.12/srclib/apr-1.5.1/ httpd-2.4.12/srclib/apr
+tar -xf apr-util-1.5.4.tar.bz2 -C httpd-2.4.12/srclib/
+mv httpd-2.4.12/srclib/apr-util-1.5.4/ httpd-2.4.12/srclib/apr-util
+cd httpd-2.4.12/
+./configure --with-included-apr --sbindir=/usr/local/apache2/sbin --enable-ssl=shared --enable-mods-shared=all
+Note that --enable-so is no longer required in Apache 2.4 as it gets auto-included
+--with-included-apr (Uses downloaded APR for building)
+--sbindir=/usr/local/apache2/sbin
+Fixes bug in Apache 2.4.0-2.4.12 (possibly later) where default config.layout uses /bin instead of /sbin
+Bug 56250 - sbindir in config.layout for Apache has bin instead of sbin
+--enable-ssl=shared (Ensures mod_ssl is included)
+--enable-mods-shared=all (Adds loadable modules for almost everything)
+make
+For installing all the parts see the "Install" section
+Install:
+
+sudo make install
+You now have an installed build for your platform
+Note: If you built on a 64-bit platform the build by default works only on 64-bit platforms
+Fix Security Permissions:
+
+Because the build process and make install doesn't always set an appropriate owner, group membership, or permission on files copied into the install directory you should always verify the appropriate security permissions.
+sudo chown -R root:root /usr/local/apache2/
+sudo chmod -R go-rwx /usr/local/apache2/
+sudo chmod -R a-w /usr/local/apache2/
+sudo chmod o+x /usr/local/apache2/
+sudo chgrp daemon /usr/local/apache2/htdocs/
+sudo chmod g+x /usr/local/apache2/htdocs/
+sudo chmod -R g+r /usr/local/apache2/htdocs/
+sudo chgrp daemon /usr/local/apache2/cgi-bin/
+sudo chmod g+x /usr/local/apache2/cgi-bin/
+sudo chmod -R g+r /usr/local/apache2/cgi-bin/
+sudo chmod -R u+w /usr/local/apache2/conf/ /usr/local/apache2/logs/
+You will need to adjust other permissions according to the features you use for your Apache server.
+
+Re-package options:
+
+You could simply tarball the directory or you could use something like checkinstall to easily create a distro package. You could also roll your own distro flavor package that includes package metadata like description, size, and dependencies.
+PHP 5.5 Addition:
+
+You will probably want to also include your own build of PHP with some extensions like zlib.
+
+Download PHP (https://php.net/downloads.php)
+sudo apt-get install libxml2-dev libpng-dev libjpeg-dev libcurl4-openssl-dev libbz2-dev
+Compile with common needed options for PHP with Apache and MySQL
+./configure \
+	--with-apxs2=/usr/local/apache2/bin/apxs \
+	--with-mysql \
+	--with-zlib \
+	--with-gd \
+	--with-jpeg-dir \
+	--with-png-dir \
+	--with-openssl \
+	--with-pcre-regex \
+	--with-bz2 \
+	--enable-calendar \
+	--with-curl \
+	--enable-exif \
+	--with-imap-ssl \
+	--enable-zip \
+	--prefix=/usr/local/php5
+You use --prefix=PREFIX if you want it somewhere other than /usr/local/bin, /usr/local/lib, etc.
+Compile and install with the usual (make && make install)
+For Apache you need to put the libphp5.so (it links to your PHP compiled prefix) into your apache2/modules folder
