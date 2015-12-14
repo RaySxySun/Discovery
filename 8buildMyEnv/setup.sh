@@ -15,6 +15,20 @@ err_exit()
     exit_code=$?
     [[ "${exit_code}" -ne 0 ]] && echo "Error with exit code: ${exit_code}" && exit 1
 }
+get_sys_info()
+{
+    cus_echo "System Level"
+    oslevel -s
+
+    cus_echo "Disk info (G)"
+    df -g
+
+    cus_echo "Paging spack (M)"
+    lsps -a
+
+    cus_echo "Memory total (M)"
+    vmstat -v|head -n 1|awk '{print $1/256}'
+}
 setup_root_user(){
     cus_echo "setup root user"
     usermod -g root $root_user
